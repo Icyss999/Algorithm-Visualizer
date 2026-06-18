@@ -13,8 +13,8 @@ function nodeColor(index: number, highlight: number[]): string {
 }
 
 export default function GraphTemplate({ step }: GraphTemplateProps) {
-  const WIDTH = 700
-  const HEIGHT = 500
+  const WIDTH = 400
+  const HEIGHT = 250
 
   const getPos = (node: GraphNode) => ({
     x: (node.x / 100) * WIDTH,
@@ -22,7 +22,7 @@ export default function GraphTemplate({ step }: GraphTemplateProps) {
   })
 
   return (
-    <svg width="50%" height="100%" viewBox={`0 0 ${WIDTH} ${HEIGHT}`}>
+    <svg width="100%" height="100%" viewBox={`0 0 ${WIDTH} ${HEIGHT}`}>
       {step.state.map((node) =>
         node.connections.map((targetId) => {
           const target = step.state.find((n) => n.id === targetId)

@@ -8,6 +8,7 @@ import GraphTemplate from "../templates/GraphTemplate"
 import TreeTemplate from "../templates/TreeTemplate"
 import { AlgorithmResponse, ArrayStep, BarsStep, GraphStep, GridStep, TreeStep } from "@/src/types/schema"
 import { Label } from "../ui/label"
+import { Button } from "../ui/button"
 
 interface VisualizerProps {
   data: AlgorithmResponse
@@ -72,9 +73,9 @@ export default function Visualizer({ data }: VisualizerProps) {
   }
 
   return (
-    <div className="flex flex-col h-full">
-      {/* Algorithm info */}
-      <div className="flex items-center gap-6 px-6 py-10 border-b border-white/10">
+    <div className="flex flex-col h-full overflow-hidden">
+      {/* Algorithm info — fixed */}
+      <div className="flex items-center gap-6 px-6 py-4 border-b border-white/10 shrink-0">
         <Label className="font-mono text-lg text-white">{data.name}</Label>
         <Label className="font-mono text-[11px] text-white/40">
           Time: <span className="text-white">{data.complexity.time}</span>
@@ -88,21 +89,21 @@ export default function Visualizer({ data }: VisualizerProps) {
         </Label>
       </div>
 
-      {/* Canvas */}
-      <div className="flex-1 flex min-h-0 border-b border-white/10">
-        <div className="flex-1 flex items-end justify-center p-4 min-h-[260px]">
+      {/* Canvas — takes all remaining space */}
+      <div className="flex-1 min-h-0 border-b border-white/10 overflow-hidden">
+        <div className="w-full h-full flex items-center justify-center p-4">
           {renderTemplate()}
         </div>
       </div>
 
-      {/* Step label */}
-      <div className="px-6 py-2 border-b border-white/10 min-h-[36px]">
-        <p className="font-mono text-lg text-white">{step.label}</p>
+      {/* Step label — fixed */}
+      <div className="px-6 py-3 border-b border-white/10 shrink-0 h-20 overflow-auto">
+        <p className="font-mono text-sm text-white/80 leading-5">{step.label}</p>
       </div>
 
-      {/* Controls */}
-      <div className="flex items-center gap-3 px-6 h-11 border-b border-white/10">
-        <button
+      {/* Controls — fixed */}
+      <div className="flex items-center gap-3 px-6 h-14 shrink-0 border-b border-white/10">
+        <Button
           onClick={() => isDone ? handleReset() : setIsPlaying((p) => !p)}
           className="flex items-center justify-center w-7 h-7 border border-white/10 hover:bg-white/5 transition-colors"
         >
@@ -111,22 +112,22 @@ export default function Visualizer({ data }: VisualizerProps) {
             : isDone
             ? <RotateCcw size={12} className="text-white/60" />
             : <Play size={12} className="text-blue-400" />}
-        </button>
+        </Button>
 
-        <button
+        <Button
           onClick={handleStep}
           disabled={isDone}
           className="flex items-center justify-center w-7 h-7 border border-white/10 hover:bg-white/5 disabled:opacity-30 transition-colors"
         >
           <SkipForward size={12} className="text-white/70" />
-        </button>
+        </Button>
 
-        <button
+        <Button
           onClick={handleReset}
           className="flex items-center justify-center w-7 h-7 border border-white/10 hover:bg-white/5 transition-colors"
         >
           <RotateCcw size={12} className="text-white/50" />
-        </button>
+        </Button>
 
         <div className="w-px h-4 bg-white/10 mx-1" />
 
@@ -138,10 +139,7 @@ export default function Visualizer({ data }: VisualizerProps) {
           style={{ accentColor: "#3d8eff" }}
         />
         <span className="font-mono text-[10px] text-white/60 w-6">{speed}</span>
-
-        <div className="flex-1" />
-
       </div>
     </div>
-  )
+)
 }

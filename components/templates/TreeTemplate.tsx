@@ -29,16 +29,16 @@ function getPositions(nodes: TreeNode[]): Map<number, { x: number; y: number }> 
 
 export default function TreeTemplate({ step }: TreeTemplateProps) {
   const WIDTH = 400
-  const HEIGHT = 100
+  const HEIGHT = 250
   const positions = getPositions(step.state)
 
   return (
     <svg width="100%" height="100%" viewBox={`0 0 ${WIDTH} ${HEIGHT}`}>
-      {step.state.map((node) => {
+      {step.state.map((node,z) => {
         const pos = positions.get(node.id)
         if (!pos) return null
         return (
-          <>
+          <g key={z}>
             {node.left !== null && positions.get(node.left) && (
               <line
                 key={`${node.id}-l`}
@@ -59,7 +59,7 @@ export default function TreeTemplate({ step }: TreeTemplateProps) {
                 strokeWidth={1.5}
               />
             )}
-          </>
+          </g>
         )
       })}
       {step.state.map((node, i) => {

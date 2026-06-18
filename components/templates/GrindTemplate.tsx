@@ -29,7 +29,7 @@ export default function GridTemplate({ step }: GridTemplateProps) {
               key={c}
               animate={{ backgroundColor: cellColor(cell) }}
               transition={{ duration: 0.2 }}
-              className="w-20 h-20 border border-white/10 flex items-center justify-center font-mono text-[9px] text-white/40"
+              className="w-10 h-10 border border-white/10 flex items-center justify-center font-mono text-[9px] text-white/40"
             >
               {cell === "start" ? "S" : cell === "end" ? "E" : ""}
             </motion.div>

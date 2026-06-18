@@ -11,7 +11,7 @@ export async function IcyssAgent(input: string, retries = 3): Promise<ReturnType
         "Authorization": `Bearer ${process.env.NEXT_PUBLIC_DEEPSEEK_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "deepseek-chat",
+        model: "deepseek-v4-flash",
         messages: [
           { role: "system", content: BuildPrompt() },
           { role: "user", content: input },
