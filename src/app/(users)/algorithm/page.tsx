@@ -70,8 +70,9 @@ export default function Page() {
                         <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
                             <Visualizer data={data} />
                         </div>
-                        <div className="w-72 shrink-0">
+                        <div className="w-75 shrink-0">
                             <CodePanel
+                                explain={data.explanation}
                                 code={data.code}
                                 currentStep={currentStep}
                                 totalSteps={data.steps.length}
