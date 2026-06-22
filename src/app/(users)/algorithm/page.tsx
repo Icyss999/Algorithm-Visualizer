@@ -17,20 +17,31 @@ export default function Page() {
   const [currentStep, setCurrentStep] = useState(0);
 
   const handleSearch = async (query: string) => {
-    setIsLoading(true);
-    setError(null);
-    setData(null);
-    setCurrentStep(0);
+    try{
+        setIsLoading(true);
+        setError(null);
+        setData(null);
+        setCurrentStep(0);
 
-    const result = await IcyssAgent(query);
+        const result = await fetch("/api/agent",{
+            method: "POST",
+            headers: {"Content-Type":"application/json"},
+            body : JSON.stringify({input:query})
+        })
+        const data = await result.json()
+        if (data.success){
+            setData(data.data) 
+        }
+        else{
+            setError(data.data.message)
+            console.log(data)
+        }
+        
 
-    if (result.success && result.data.type === "visualization") {
-      setData(result.data as AlgorithmResponse);
-    } else {
-      setError((result.data as { message: string }).message);
     }
-
-    setIsLoading(false);
+    finally{
+        setIsLoading(false)
+    }
   };
 
   return (
