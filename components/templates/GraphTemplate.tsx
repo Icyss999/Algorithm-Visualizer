@@ -2,14 +2,12 @@
 import { GraphNode, GraphStep } from "@/src/types/schema"
 import { motion } from "framer-motion"
 
-
 interface GraphTemplateProps {
   step: GraphStep
 }
 
 function nodeColor(index: number, highlight: number[]): string {
-  if (highlight.includes(index)) return "#3d8eff"
-  return "#1c2a3a"
+  return highlight.includes(index) ? "#3d8eff" : "#1c2a3a"
 }
 
 export default function GraphTemplate({ step }: GraphTemplateProps) {
@@ -23,7 +21,8 @@ export default function GraphTemplate({ step }: GraphTemplateProps) {
 
   return (
     <svg width="100%" height="100%" viewBox={`0 0 ${WIDTH} ${HEIGHT}`}>
-      {step.state.map((node) =>
+      {/* Lines first so they render behind nodes */}
+      {step.state.flatMap((node) =>
         node.connections.map((targetId) => {
           const target = step.state.find((n) => n.id === targetId)
           if (!target) return null
@@ -34,12 +33,13 @@ export default function GraphTemplate({ step }: GraphTemplateProps) {
               key={`${node.id}-${targetId}`}
               x1={from.x} y1={from.y}
               x2={to.x} y2={to.y}
-              stroke="rgba(255,255,255,0.15)"
+              stroke="rgba(255,255,255,0.5)"
               strokeWidth={1.5}
             />
           )
         })
       )}
+      {/* Nodes on top */}
       {step.state.map((node, i) => {
         const pos = getPos(node)
         return (
@@ -50,8 +50,8 @@ export default function GraphTemplate({ step }: GraphTemplateProps) {
               r={20}
               animate={{ fill: nodeColor(i, step.highlight) }}
               transition={{ duration: 0.2 }}
-              stroke="rgba(255,255,255,0.2)"
-              strokeWidth={1}
+              stroke="rgba(255,255,255,0.4)"
+              strokeWidth={1.5}
             />
             <text
               x={pos.x}

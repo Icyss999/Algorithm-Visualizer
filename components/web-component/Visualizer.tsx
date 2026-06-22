@@ -84,21 +84,21 @@ export default function Visualizer({ data }: VisualizerProps) {
           Space: <span className="text-white">{data.complexity.space}</span>
         </Label>
         <Label className="flex-1" />
-        <Label className="font-mono text-[11px] text-white/40">
-          Step <span className="text-white/70">{currentStep + 1}</span> / {totalSteps}
-        </Label>
       </div>
 
       {/* Canvas — takes all remaining space */}
       <div className="flex-1 min-h-0 border-b border-white/10 overflow-hidden">
-        <div className="w-full h-full flex items-center justify-center p-4">
+        <div className="w-full h-full flex items-center justify-center ">
           {renderTemplate()}
         </div>
       </div>
 
       {/* Step label — fixed */}
-      <div className="px-6 py-3 border-b border-white/10 shrink-0 h-20 overflow-auto">
-        <p className="font-mono text-sm text-white/80 leading-5">{step.label}</p>
+      <div className="px-6 py-3 border-b border-white/10 shrink-0 h-25 overflow-auto flex flex-col gap-3">
+        <Label className="font-mono text-[12px] text-white">
+          Step: <span className="text-white">{currentStep + 1}</span> / {totalSteps}
+        </Label>
+        <p className="font-mono text-sm text-white leading-5">{step.label}</p>
       </div>
 
       {/* Controls — fixed */}

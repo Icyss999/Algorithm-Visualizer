@@ -106,7 +106,6 @@ export default function Page() {
                 )}
             </div>
 
-            {/* Search bar — always at bottom */}
             <div className="h-[70px] shrink-0 border-t border-white/10">
                 <SearchBox onSearch={handleSearch} isLoading={isLoading} />
             </div>
