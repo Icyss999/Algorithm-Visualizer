@@ -1,14 +1,12 @@
 "use client"
 import { useState, useEffect, useRef } from "react"
-import { Play, Pause, SkipForward, RotateCcw, InfoIcon } from "lucide-react"
+import { Play, Pause, SkipForward, RotateCcw } from "lucide-react"
 import BarsTemplate from "../templates/BarsTemplate"
 import ArrayTemplate from "../templates/ArrayTemplate"
 import GridTemplate from "../templates/GrindTemplate"
 import GraphTemplate from "../templates/GraphTemplate"
 import TreeTemplate from "../templates/TreeTemplate"
 import { AlgorithmResponse, ArrayStep, BarsStep, GraphStep, GridStep, TreeStep } from "@/src/types/schema"
-import { Label } from "../ui/label"
-import { Button } from "../ui/button"
 
 interface VisualizerProps {
   data: AlgorithmResponse
@@ -74,72 +72,79 @@ export default function Visualizer({ data }: VisualizerProps) {
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
-      {/* Algorithm info — fixed */}
-      <div className="flex items-center gap-6 px-6 py-4 border-b border-white/10 shrink-0">
-        <Label className="font-mono text-lg text-white">{data.name}</Label>
-        <Label className="font-mono text-[11px] text-white/40">
+
+      {/* Algorithm info — wraps on mobile */}
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-1 px-4 md:px-6 py-3 border-b border-white/10 shrink-0">
+        <span className="font-mono text-sm md:text-base text-white">{data.name}</span>
+        <span className="font-mono text-[11px] text-white/40">
           Time: <span className="text-white">{data.complexity.time}</span>
-        </Label>
-        <Label className="font-mono text-[11px] text-white/40">
+        </span>
+        <span className="font-mono text-[11px] text-white/40">
           Space: <span className="text-white">{data.complexity.space}</span>
-        </Label>
-        <Label className="flex-1" />
+        </span>
+        <span className="font-mono text-[11px] text-white/40 ml-auto">
+          Step <span className="text-white">{currentStep + 1}</span> / {totalSteps}
+        </span>
       </div>
 
-      {/* Canvas — takes all remaining space */}
-      <div className="flex-1 min-h-0 border-b border-white/10 overflow-hidden">
-        <div className="w-full h-full flex items-center justify-center ">
+      {/* Canvas — explicit min height so it never collapses */}
+      <div className="flex-1 min-h-[200px] md:min-h-[280px] border-b border-white/10 overflow-hidden">
+        <div className="w-full h-full flex items-center justify-center">
           {renderTemplate()}
         </div>
       </div>
 
-      {/* Step label — fixed */}
-      <div className="px-6 py-3 border-b border-white/10 shrink-0 h-25 overflow-auto flex flex-col gap-3">
-        <Label className="font-mono text-[12px] text-white">
-          Step: <span className="text-white">{currentStep + 1}</span> / {totalSteps}
-        </Label>
-        <p className="font-mono text-sm text-white leading-5">{step.label}</p>
+      {/* Step label */}
+      <div className="px-4 md:px-6 py-3 border-b border-white/10 shrink-0 min-h-[60px] max-h-[80px] overflow-auto">
+        <p className="font-mono text-xs md:text-sm text-white leading-5">{step.label}</p>
       </div>
 
-      {/* Controls — fixed */}
-      <div className="flex items-center gap-3 px-6 h-14 shrink-0 border-b border-white/10">
-        <Button
-          onClick={() => isDone ? handleReset() : setIsPlaying((p) => !p)}
-          className="flex items-center justify-center w-7 h-7 border border-white/10 hover:bg-white/5 transition-colors"
-        >
-          {isPlaying
-            ? <Pause size={12} className="text-blue-400" />
-            : isDone
-            ? <RotateCcw size={12} className="text-white/60" />
-            : <Play size={12} className="text-blue-400" />}
-        </Button>
+      {/* Controls — wraps on mobile */}
+      <div className="flex flex-wrap items-center gap-3 px-4 md:px-6 py-3 shrink-0 border-b border-white/10">
 
-        <Button
-          onClick={handleStep}
-          disabled={isDone}
-          className="flex items-center justify-center w-7 h-7 border border-white/10 hover:bg-white/5 disabled:opacity-30 transition-colors"
-        >
-          <SkipForward size={12} className="text-white/70" />
-        </Button>
+        {/* Playback buttons */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => isDone ? handleReset() : setIsPlaying((p) => !p)}
+            className="flex items-center justify-center w-8 h-8 border border-white/10 hover:bg-white/5 transition-colors"
+          >
+            {isPlaying
+              ? <Pause size={13} className="text-blue-400" />
+              : isDone
+              ? <RotateCcw size={13} className="text-white/60" />
+              : <Play size={13} className="text-blue-400" />}
+          </button>
 
-        <Button
-          onClick={handleReset}
-          className="flex items-center justify-center w-7 h-7 border border-white/10 hover:bg-white/5 transition-colors"
-        >
-          <RotateCcw size={12} className="text-white/50" />
-        </Button>
+          <button
+            onClick={handleStep}
+            disabled={isDone}
+            className="flex items-center justify-center w-8 h-8 border border-white/10 hover:bg-white/5 disabled:opacity-30 transition-colors"
+          >
+            <SkipForward size={13} className="text-white/70" />
+          </button>
 
-        <div className="w-px h-4 bg-white/10 mx-1" />
+          <button
+            onClick={handleReset}
+            className="flex items-center justify-center w-8 h-8 border border-white/10 hover:bg-white/5 transition-colors"
+          >
+            <RotateCcw size={13} className="text-white/50" />
+          </button>
+        </div>
 
-        <span className="font-mono text-[10px] text-white/40">SPEED</span>
-        <input
-          type="range" min={1} max={100} value={speed}
-          onChange={(e) => setSpeed(Number(e.target.value))}
-          className="w-28 cursor-pointer"
-          style={{ accentColor: "#3d8eff" }}
-        />
-        <span className="font-mono text-[10px] text-white/60 w-6">{speed}</span>
+        <div className="w-px h-4 bg-white/10" />
+
+        {/* Speed — takes remaining space, shrinks on mobile */}
+        <div className="flex items-center gap-2 flex-1 min-w-[140px]">
+          <span className="font-mono text-[10px] text-white/40 shrink-0">SPEED</span>
+          <input
+            type="range" min={1} max={100} value={speed}
+            onChange={(e) => setSpeed(Number(e.target.value))}
+            className="flex-1 cursor-pointer"
+            style={{ accentColor: "#3d8eff" }}
+          />
+          <span className="font-mono text-[10px] text-white/60 w-6 shrink-0">{speed}</span>
+        </div>
       </div>
     </div>
-)
+  )
 }

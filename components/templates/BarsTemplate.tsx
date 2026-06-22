@@ -19,7 +19,7 @@ export default function BarsTemplate({ step }: BarsTemplateProps) {
   const max = Math.max(...step.state)
 
   return (
-    <div className="flex items-end gap-[2px] w-full h-full px-2 pb-2">
+    <div className="flex items-end gap-[2px] w-full h-full min-h-[180px] px-2 pb-2">
       {step.state.map((value, i) => (
         <motion.div
           key={i}

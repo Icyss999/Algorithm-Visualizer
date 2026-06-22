@@ -19,7 +19,6 @@ export async function IcyssAgent(input: string, retries = 3): Promise<ReturnType
         thinking: { type: "disabled" },
       }),
     })
-
     if (!res.ok) throw new Error("API failed")
 
     const data = await res.json()
