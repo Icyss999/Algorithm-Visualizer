@@ -17,30 +17,26 @@ export default function Page() {
   const [currentStep, setCurrentStep] = useState(0);
 
   const handleSearch = async (query: string) => {
-    try{
-        setIsLoading(true);
-        setError(null);
-        setData(null);
-        setCurrentStep(0);
+    try {
+      setIsLoading(true);
+      setError(null);
+      setData(null);
+      setCurrentStep(1);
 
-        const result = await fetch("/api/agent",{
-            method: "POST",
-            headers: {"Content-Type":"application/json"},
-            body : JSON.stringify({input:query})
-        })
-        const data = await result.json()
-        if (data.success){
-            setData(data.data) 
-        }
-        else{
-            setError(data.data.message)
-            console.log(data)
-        }
-        
-
-    }
-    finally{
-        setIsLoading(false)
+      const result = await fetch("/api/agent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ input: query }),
+      });
+      const data = await result.json();
+      if (data.success) {
+        setData(data.data);
+      } else {
+        setError(data.data.message);
+        console.log(data);
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -87,9 +83,7 @@ export default function Page() {
                   <CodePanel
                     explain={data.explanation}
                     code={data.code}
-                    currentStep={currentStep}
                     totalSteps={data.steps.length}
-                    label={data.steps[currentStep]?.label ?? ""}
                   />
                 </div>
               </div>

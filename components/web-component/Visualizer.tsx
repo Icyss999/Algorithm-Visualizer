@@ -7,6 +7,7 @@ import GridTemplate from "../templates/GrindTemplate"
 import GraphTemplate from "../templates/GraphTemplate"
 import TreeTemplate from "../templates/TreeTemplate"
 import { AlgorithmResponse, ArrayStep, BarsStep, GraphStep, GridStep, TreeStep } from "@/src/types/schema"
+import { Button } from "../ui/button"
 
 interface VisualizerProps {
   data: AlgorithmResponse
@@ -82,9 +83,6 @@ export default function Visualizer({ data }: VisualizerProps) {
         <span className="font-mono text-[11px] text-white/40">
           Space: <span className="text-white">{data.complexity.space}</span>
         </span>
-        <span className="font-mono text-[11px] text-white/40 ml-auto">
-          Step <span className="text-white">{currentStep + 1}</span> / {totalSteps}
-        </span>
       </div>
 
       {/* Canvas — explicit min height so it never collapses */}
@@ -95,7 +93,10 @@ export default function Visualizer({ data }: VisualizerProps) {
       </div>
 
       {/* Step label */}
-      <div className="px-4 md:px-6 py-3 border-b border-white/10 shrink-0 min-h-[60px] max-h-[80px] overflow-auto">
+      <div className="px-4 md:px-6 py-3 border-b border-white/10 shrink-0 flex flex-col gap-3 h-25 overflow-auto">
+        <span className="font-mono text-[11px] text-white">
+          Step: <span className="text-white">{currentStep + 1}</span> / {totalSteps}
+        </span>
         <p className="font-mono text-xs md:text-sm text-white leading-5">{step.label}</p>
       </div>
 
@@ -104,31 +105,29 @@ export default function Visualizer({ data }: VisualizerProps) {
 
         {/* Playback buttons */}
         <div className="flex items-center gap-2">
-          <button
+          <Button
             onClick={() => isDone ? handleReset() : setIsPlaying((p) => !p)}
             className="flex items-center justify-center w-8 h-8 border border-white/10 hover:bg-white/5 transition-colors"
           >
             {isPlaying
               ? <Pause size={13} className="text-blue-400" />
-              : isDone
-              ? <RotateCcw size={13} className="text-white/60" />
               : <Play size={13} className="text-blue-400" />}
-          </button>
+          </Button>
 
-          <button
+          <Button
             onClick={handleStep}
             disabled={isDone}
             className="flex items-center justify-center w-8 h-8 border border-white/10 hover:bg-white/5 disabled:opacity-30 transition-colors"
           >
             <SkipForward size={13} className="text-white/70" />
-          </button>
+          </Button>
 
-          <button
+          <Button
             onClick={handleReset}
             className="flex items-center justify-center w-8 h-8 border border-white/10 hover:bg-white/5 transition-colors"
           >
             <RotateCcw size={13} className="text-white/50" />
-          </button>
+          </Button>
         </div>
 
         <div className="w-px h-4 bg-white/10" />

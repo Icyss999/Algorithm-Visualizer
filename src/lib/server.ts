@@ -4,10 +4,10 @@ import type { AlgorithmResponse, ApiErrorResponse, ErrorResponse } from "../type
 
 export const sendSuccess = (data:AlgorithmResponse)=>{
    const body = {
-    success : true,
+    success: true,
     data : data
    } 
-   return {body,status:200}
+   return Response.json(body,{status:200})
 }
 
 export const sendError = (data: ErrorResponse | ApiErrorResponse, )=>{
@@ -15,5 +15,5 @@ export const sendError = (data: ErrorResponse | ApiErrorResponse, )=>{
     success : false,
     data : data
    }
-   return {body, status : data.type === "api_error"? 500 : 400}
+   return Response.json(body, {status : data.type === "api_error"? 500 : 400})
 }

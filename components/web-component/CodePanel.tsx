@@ -4,14 +4,12 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 interface CodePanelProps {
   code: string
   explain:string
-  currentStep: number
   totalSteps: number
-  label: string
 }
 
 
 
-export default function CodePanel({ code, label, explain }: CodePanelProps) {
+export default function CodePanel({ code, explain }: CodePanelProps) {
 
   const [value,setValue] = useState("code")
 
@@ -38,11 +36,6 @@ export default function CodePanel({ code, label, explain }: CodePanelProps) {
       ):(
         <div className="flex-1 overflow-auto p-4 font-mono text-sm text-white leading-relaxed">
           {explain}
-        </div>
-      )}
-      {label && (
-        <div className="px-4 py-2 border-t border-white/10">
-          <p className="font-mono text-[10px] text-blue-400">{label}</p>
         </div>
       )}
     </div>
