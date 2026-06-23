@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Icyrhythm ❄️
 
-## Getting Started
+> Algorithm visualization, powered by AI.
 
-First, run the development server:
+Algorithms and data structures are among the most challenging concepts in computer science — not because they're impossible, but because most learning resources only show you the code and a description. Icyrhythm was built to change that.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+**Icyrhythm** is an AI-powered algorithm visualizer designed for CS students and curious developers who want to understand algorithms from the inside out — not just what they look like, but how they actually move, think, and behave step by step.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Why Icyrhythm?
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Most students can read a sorting algorithm and understand the code. Far fewer can close their eyes and see it running. Icyrhythm bridges that gap by turning abstract logic into something you can watch, follow, and truly internalize.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **AI Agent (IcyssAgent)** — Powered by DeepSeek. Type any algorithm in plain English and the agent generates a full visualization instantly.
+- **Step-by-step visualization** — Watch every operation unfold with animated, color-coded steps and explanations for each decision.
+- **Multiple algorithm templates** — Dedicated visual templates for sorting, searching, pathfinding, graph traversal, and tree algorithms.
+- **Code panel** — View the actual implementation alongside the visualization, synchronized to each step.
+- **Full explanations** — Every algorithm comes with a detailed description, time and space complexity, and a plain-English breakdown.
+- **Broad algorithm support** — Bubble Sort, Merge Sort, Binary Search, Dijkstra, BFS, DFS, AVL Trees, and more.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Who is it for?
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- CS students preparing for exams or technical interviews
+- Developers who want to deeply understand the algorithms behind their code
+- Anyone who learns better by seeing than by reading
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Tech Stack
+
+- **Framework** — Next.js (App Router) + TypeScript
+- **AI** — DeepSeek API via IcyssAgent
+- **Styling** — Tailwind CSS + shadcn/ui
+- **Animation** — Framer Motion
+
+
+---
