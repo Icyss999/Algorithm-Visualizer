@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Icyrhythm ❄️
+
+Algorithm and data structure is one of the hardest concepts for CS students to grasp. Not because it's impossible, but because most of the time you only see the code and a description. You never actually see it happen.
+
+Icyrhythm was built for that exact problem. It's an AI-powered algorithm visualizer that helps CS students understand algorithms from scratch, not just from the outside. You don't just read about Bubble Sort, you watch it run, step by step, with a full explanation of every decision it makes.
+
+This is for CS students who want to study with more confidence, and for developers who are curious about what's actually happening inside the code they write every day. The goal is simple: by the time you're done using Icyrhythm, you don't just know how to use an algorithm, you understand it.
+
+---
+
+## Features
+
+- **AI Agent (IcyssAgent)** - Type any algorithm in plain English and the agent builds the full visualization for you
+- **Visualization** - Watch the algorithm run in real time with color-coded animations
+- **Step by step explanation** - Every single operation gets its own step with a plain explanation of what happened and why
+- **Algorithm templates** - Different visual templates built specifically for sorting, searching, pathfinding, graph traversal, and tree algorithms
+- **Code panel** - See the actual implementation alongside the visualization, synced to each step
+- **Full description** - Time complexity, space complexity, and a full breakdown of how the algorithm works
+
+---
+
+## Tech Stack
+
+- Next.js (App Router) + TypeScript
+- DeepSeek API
+- Tailwind CSS + shadcn/ui
+- Framer Motion
+
+---
 
 ## Getting Started
 
-First, run the development server:
+```bash
+npm install
+```
+
+Create a `.env.local` file:
+```
+DEEPSEEK_API_KEY=your_key_here
+```
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Built by [@Icyss999](https://github.com/Icyss999)

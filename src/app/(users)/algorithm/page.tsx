@@ -42,7 +42,7 @@ export default function Page() {
 
   return (
     <div
-      className="flex flex-col bg-[#0a0f14] text-white overflow-hidden h-screen"
+      className="flex flex-col bg-foreground text-white overflow-hidden h-screen"
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
       {/* Header */}

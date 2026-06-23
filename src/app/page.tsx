@@ -3,16 +3,20 @@ import { Button } from "@/src/components/ui/button";
 import { Label } from "@/src/components/ui/label";
 import { IntroType } from "@/src/components/web-component/Intro-Type";
 import { useRouter } from "next/navigation";
+import { authClient } from "../lib/authClient";
+import { useState } from "react";
 
 
 
 export default function MainPage(){
 
     const route = useRouter()
+    const [error,setError] = useState<string|null>(null)
     const handleRoute = ()=>{
         route.push("/algorithm")
     }
 
+   
     return(
         <div 
         className="bg-[#0a0f14] h-screen"
