@@ -1,12 +1,12 @@
 "use client";
 import { useState } from "react";
 
-import SearchBox from "@/components/web-component/SearchBox";
-import Visualizer from "@/components/web-component/Visualizer";
-import CodePanel from "@/components/web-component/CodePanel";
+import SearchBox from "@/src/components/web-component/SearchBox";
+import Visualizer from "@/src/components/web-component/Visualizer";
+import CodePanel from "@/src/components/web-component/CodePanel";
 import { SnowflakeIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/src/components/ui/button";
+import { Label } from "@/src/components/ui/label";
 import { AlgorithmResponse } from "@/src/types/schema";
 import { IcyssAgent } from "@/src/agent/agent";
 

@@ -1,0 +1,20 @@
+name: CODE-QUALITY-CHECKING
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v3
+
+        - name: Install Node
+          uses: actions/setup-node@v3
+          with:
+            node-version: 24
+        - name: Install dependencies
+          run: npm Install
+        - name: Build
+          run: npm run build

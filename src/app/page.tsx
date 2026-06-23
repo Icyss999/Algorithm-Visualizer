@@ -1,7 +1,7 @@
 "use client"
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { IntroType } from "@/components/web-component/Intro-Type";
+import { Button } from "@/src/components/ui/button";
+import { Label } from "@/src/components/ui/label";
+import { IntroType } from "@/src/components/web-component/Intro-Type";
 import { useRouter } from "next/navigation";
 
 
