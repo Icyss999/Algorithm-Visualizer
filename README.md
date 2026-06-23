@@ -1,44 +1,49 @@
-# Icyrhythm ❄️
+Icyrhythm ❄️
 
-> Algorithm visualization, powered by AI.
+Algorithm and data structure is one of the hardest concepts for CS students to grasp. Not because it's impossible, but because most of the time you only see the code and a description. You never actually see it happen.
 
-Algorithms and data structures are among the most challenging concepts in computer science — not because they're impossible, but because most learning resources only show you the code and a description. Icyrhythm was built to change that.
+Icyrhythm was built for that exact problem. It's an AI-powered algorithm visualizer that helps CS students understand algorithms from scratch, not just from the outside. You don't just read about Bubble Sort, you watch it run, step by step, with a full explanation of every decision it makes.
 
-**Icyrhythm** is an AI-powered algorithm visualizer designed for CS students and curious developers who want to understand algorithms from the inside out — not just what they look like, but how they actually move, think, and behave step by step.
-
----
-
-## Why Icyrhythm?
-
-Most students can read a sorting algorithm and understand the code. Far fewer can close their eyes and see it running. Icyrhythm bridges that gap by turning abstract logic into something you can watch, follow, and truly internalize.
-
----
-
-## Features
-
-- **AI Agent (IcyssAgent)** — Powered by DeepSeek. Type any algorithm in plain English and the agent generates a full visualization instantly.
-- **Step-by-step visualization** — Watch every operation unfold with animated, color-coded steps and explanations for each decision.
-- **Multiple algorithm templates** — Dedicated visual templates for sorting, searching, pathfinding, graph traversal, and tree algorithms.
-- **Code panel** — View the actual implementation alongside the visualization, synchronized to each step.
-- **Full explanations** — Every algorithm comes with a detailed description, time and space complexity, and a plain-English breakdown.
-- **Broad algorithm support** — Bubble Sort, Merge Sort, Binary Search, Dijkstra, BFS, DFS, AVL Trees, and more.
-
----
-
-## Who is it for?
-
-- CS students preparing for exams or technical interviews
-- Developers who want to deeply understand the algorithms behind their code
-- Anyone who learns better by seeing than by reading
-
----
-
-## Tech Stack
-
-- **Framework** — Next.js (App Router) + TypeScript
-- **AI** — DeepSeek API via IcyssAgent
-- **Styling** — Tailwind CSS + shadcn/ui
-- **Animation** — Framer Motion
+This is for CS students who want to study with more confidence, and for developers who are curious about what's actually happening inside the code they write every day. The goal is simple: by the time you're done using Icyrhythm, you don't just know how to use an algorithm, you understand it.
 
 
----
+Features
+
+
+AI Agent (IcyssAgent) - Type any algorithm in plain English and the agent builds the full visualization for you
+Visualization - Watch the algorithm run in real time with color-coded animations
+Step by step explanation - Every single operation gets its own step with a plain explanation of what happened and why
+Algorithm templates - Different visual templates built specifically for sorting, searching, pathfinding, graph traversal, and tree algorithms
+Code panel - See the actual implementation alongside the visualization, synced to each step
+Full description - Time complexity, space complexity, and a full breakdown of how the algorithm works
+
+
+
+Tech Stack
+
+
+Next.js (App Router) + TypeScript
+DeepSeek API
+Tailwind CSS + shadcn/ui
+Framer Motion
+
+
+
+
+Getting Started
+
+bashnpm install
+
+Create a .env.local file:
+
+DEEPSEEK_API_KEY=your_key_here
+
+bashnpm run dev
+
+Open http://localhost:3000.
+
+
+
+
+
+Built by @Icyss999
