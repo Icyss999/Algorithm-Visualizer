@@ -4,6 +4,7 @@ import { validateResponse } from "./validator"
 
 export async function IcyssAgent(input: string, retries = 3): Promise<ReturnType<typeof validateResponse>> {
   try {
+    
     const res = await fetch("https://api.deepseek.com/chat/completions", {
       method: "POST",
       headers: {
@@ -26,7 +27,7 @@ export async function IcyssAgent(input: string, retries = 3): Promise<ReturnType
     const parsed: ResponseType = JSON.parse(raw)
     return validateResponse(parsed)
 
-  } catch (error) {
+  } catch {
     if (retries > 0) {
       return IcyssAgent(input, retries - 1)
     }

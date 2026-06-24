@@ -24,26 +24,25 @@ export default function Visualizer({ data }: VisualizerProps) {
   const isDone = currentStep >= totalSteps - 1
 
   useEffect(() => {
-    if (!isPlaying) {
-      if (intervalRef.current) clearInterval(intervalRef.current)
-      return
-    }
-    if (isDone) {
-      setIsPlaying(false)
-      return
-    }
-    const delay = Math.round(1000 - speed * 9)
-    intervalRef.current = setInterval(() => {
-      setCurrentStep((s) => {
-        if (s >= totalSteps - 1) {
-          setIsPlaying(false)
-          return s
-        }
-        return s + 1
-      })
-    }, delay)
-    return () => { if (intervalRef.current) clearInterval(intervalRef.current) }
-  }, [isPlaying, speed, totalSteps, isDone])
+  if (!isPlaying) {
+    if (intervalRef.current) clearInterval(intervalRef.current)
+    return
+  }
+
+  const delay = Math.round(1000 - speed * 9)
+  intervalRef.current = setInterval(() => {
+    setCurrentStep((s) => {
+      if (s >= totalSteps - 1) {
+        clearInterval(intervalRef.current!) 
+        setIsPlaying(false)                 
+        return s
+      }
+      return s + 1
+    })
+  }, delay)
+
+  return () => { if (intervalRef.current) clearInterval(intervalRef.current) }
+}, [isPlaying, speed, totalSteps])
 
   const handleStep = () => {
     if (isDone) return

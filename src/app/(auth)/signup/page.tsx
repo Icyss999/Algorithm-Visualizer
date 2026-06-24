@@ -112,14 +112,13 @@ export default function SignUpPage() {
             className="w-full bg-[#4F8EF7] hover:bg-[#3d7de6] text-white text-sm font-mono py-2.5 rounded-md transition-colors cursor-pointer mt-1">
                 Create my account
             </Button>
+            {error && <Label className="text-red"> {error} </Label>}
         </form>
       </div>
 
-      {error && <Label className="text-red"> {error} </Label>}
-
 
       <div className="flex justify-center gap-3">
-        <Label className="text-white text-sm"> Don't have an account? </Label>
+        <Label className="text-white text-sm"> Don&apos;t have an account? </Label>
         <Link href="/signin" className="text-white/70 text-sm hover:underline hover:text-white"> Click here</Link>
       </div>
     </div>

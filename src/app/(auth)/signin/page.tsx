@@ -95,8 +95,8 @@ export default function SignInPage() {
             <Button className="w-full bg-[#4F8EF7] hover:bg-[#3d7de6] text-white text-sm font-mono py-2.5 rounded-md transition-colors cursor-pointer mt-1">
                 Sign in
             </Button>
+          {error && <Label className="text-red-500">{error}</Label>}
         </form>
-        {error && <Label className="text-red-500">{error}</Label>}
       </div>
 
       <div className="flex items-center gap-3">
@@ -123,7 +123,7 @@ export default function SignInPage() {
         </div>
       </div>
       <div className="flex justify-center gap-3">
-        <Label className="text-white text-sm"> Don't have an account? </Label>
+        <Label className="text-white text-sm"> Don&apos;t have an account? </Label>
         <Link href="/signup" className="text-white/70 text-sm hover:underline hover:text-white"> Click here</Link>
       </div>
     </div>

@@ -8,20 +8,19 @@ import { SnowflakeIcon } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { Label } from "@/src/components/ui/label";
 import { AlgorithmResponse } from "@/src/types/schema";
-import { IcyssAgent } from "@/src/agent/agent";
+
 
 export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<AlgorithmResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [currentStep, setCurrentStep] = useState(0);
+
 
   const handleSearch = async (query: string) => {
     try {
       setIsLoading(true);
       setError(null);
       setData(null);
-      setCurrentStep(1);
 
       const result = await fetch("/api/agent", {
         method: "POST",

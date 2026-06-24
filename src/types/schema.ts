@@ -1,7 +1,6 @@
 import z from "zod";
 
-
-// These are schema for sign in and sign up form 
+// These are schema for sign in and sign up form
 export const signInFormSchema = z.object({
   email: z.string().email("Please input a valid email address"),
   password: z
@@ -12,16 +11,23 @@ export const signInFormSchema = z.object({
     .regex(/[!@#$%^&*]/, "Password must contain at least 1 special character"),
 });
 
-export const signUpFormSchema = signInFormSchema.extend({
-  name: z.string().min(1,"Name must contain at least 1 character"),
-  confirmPassword: z.string().min(8,"Password must contain at least 8 characters")
-}).refine((data)=>data.confirmPassword === data.password,{
-  message: "Password does not match",
-  path: ["confirmPassword"]
-})
+export const signUpFormSchema = signInFormSchema
+  .extend({
+    name: z
+      .string()
+      .min(1, "Name must contain at least 1 character")
+      .regex(/^[a-zA-Z0-9 ]*$/, "Name must not contain special character"),
+    confirmPassword: z
+      .string()
+      .min(8, "Password must contain at least 8 characters"),
+  })
+  .refine((data) => data.confirmPassword === data.password, {
+    message: "Password does not match",
+    path: ["confirmPassword"],
+  });
 
-export type SignInForm = z.infer<typeof signInFormSchema>
-export type SignUpForm = z.infer<typeof signUpFormSchema>
+export type SignInForm = z.infer<typeof signInFormSchema>;
+export type SignUpForm = z.infer<typeof signUpFormSchema>;
 
 // Any below are the type for algorithm visualizer in json file
 
