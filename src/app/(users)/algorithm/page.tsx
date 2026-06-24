@@ -77,7 +77,9 @@ export default function Page() {
               {/* Stack vertically on mobile, side by side on desktop */}
               <div className="flex flex-col lg:flex-row flex-1 min-h-0 overflow-hidden">
                 <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
-                  <Visualizer data={data} />
+                  <Visualizer
+                  key = {data?.name} 
+                  data={data} />
                 </div>
                 <div className="lg:w-72 shrink-0 border-t lg:border-t-0 lg:border-l border-white/10 max-h-[300px] lg:max-h-none overflow-auto">
                   <CodePanel

@@ -14,8 +14,8 @@ interface VisualizerProps {
 }
 
 export default function Visualizer({ data }: VisualizerProps) {
-  let [currentStep, setCurrentStep] = useState(0)
-  let [isPlaying, setIsPlaying] = useState(false)
+  const [currentStep, setCurrentStep] = useState(0)
+  const [isPlaying, setIsPlaying] = useState(false)
   const [speed, setSpeed] = useState(50)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
@@ -24,17 +24,12 @@ export default function Visualizer({ data }: VisualizerProps) {
   const isDone = currentStep >= totalSteps - 1
 
   useEffect(() => {
-    currentStep = 0
-    isPlaying = false
-  }, [data])
-
-  useEffect(() => {
     if (!isPlaying) {
       if (intervalRef.current) clearInterval(intervalRef.current)
       return
     }
     if (isDone) {
-      isPlaying = false
+      setIsPlaying(false)
       return
     }
     const delay = Math.round(1000 - speed * 9)
@@ -52,13 +47,13 @@ export default function Visualizer({ data }: VisualizerProps) {
 
   const handleStep = () => {
     if (isDone) return
-    isPlaying = false
+    setIsPlaying(false)
     setCurrentStep((s) => Math.min(s + 1, totalSteps - 1))
   }
 
   const handleReset = () => {
-    isPlaying = false
-    currentStep = 0
+    setIsPlaying(false)
+    setCurrentStep(0)
   }
 
   const renderTemplate = () => {
