@@ -26,7 +26,7 @@ export default function SignUpPage() {
             password: submission.password,
             fetchOptions:{
                 onSuccess: ()=>{
-                   router.push("/home") 
+                   router.push("/algorithm") 
                 },
                 onError: (ctx)=>{
                     setError(ctx.error.message)

@@ -25,7 +25,7 @@ export default function SignInPage() {
       password: submission.password,
       fetchOptions: {
         onSuccess: ()=>{
-          router.push("/home")
+          router.push("/algorithm")
         },
         onError: (ctx)=>{
           setError(ctx.error.message)
@@ -39,7 +39,7 @@ export default function SignInPage() {
       provider: social,
       fetchOptions: {
         onSuccess: ()=>{
-          router.push("/home")
+          router.push("/algorithm")
         },
         onError: (ctx)=>{
           setError(ctx.error.message)
