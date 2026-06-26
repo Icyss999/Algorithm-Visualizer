@@ -8,6 +8,7 @@ import { SnowflakeIcon } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { Label } from "@/src/components/ui/label";
 import { AlgorithmResponse } from "@/src/types/schema";
+import { AppSidebar } from "@/src/components/web-component/AppSidebar";
 
 
 export default function Page() {
@@ -40,17 +41,14 @@ export default function Page() {
   };
 
   return (
-    <div
-      className="flex flex-col bg-foreground text-white overflow-hidden h-screen"
+
+   <div className="flex">
+      <AppSidebar/>
+      <div
+      className="flex flex-col bg-foreground text-white overflow-hidden h-screen w-screen"
       style={{ fontFamily: "'Inter', sans-serif" }}
     >
-      {/* Header */}
-      <header className="flex items-center px-6 h-[70px] border-b border-white/10 gap-5 shrink-0">
-        <SnowflakeIcon className="w-5 h-5" />
-        <span className="font-mono tracking-widest text-white text-base uppercase">
-          Icyrythm
-        </span>
-      </header>
+    
 
       {/* Main content */}
       <div className="flex flex-col flex-1 min-h-0">
@@ -120,11 +118,12 @@ export default function Page() {
             </div>
           )}
         </div>
-
-        <div className="h-[70px] shrink-0 border-t border-white/10">
-          <SearchBox onSearch={handleSearch} isLoading={isLoading} />
+        <div className="h-[70px] shrink-0 border-1 border-white/10 ">
+            <SearchBox onSearch={handleSearch} isLoading={isLoading} />
         </div>
+
       </div>
     </div>
+   </div>
   );
 }

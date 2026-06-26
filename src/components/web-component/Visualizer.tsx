@@ -69,7 +69,7 @@ export default function Visualizer({ data }: VisualizerProps) {
     <div className="flex flex-col h-full overflow-hidden">
 
       {/* Algorithm info — wraps on mobile */}
-      <div className="flex flex-wrap items-center gap-x-6 gap-y-1 px-4 md:px-6 py-3 border-b border-white/10 shrink-0">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-1 px-4 md:px-6 py-6 border-b border-white/10 shrink-0">
         <span className="font-mono text-sm md:text-base text-white">{data.name}</span>
         <span className="font-mono text-[11px] text-white/40">
           Time: <span className="text-white">{data.complexity.time}</span>

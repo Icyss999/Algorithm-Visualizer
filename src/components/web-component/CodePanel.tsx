@@ -15,7 +15,7 @@ export default function CodePanel({ code, explain }: CodePanelProps) {
 
   return (
     <div className="flex flex-col h-full border-l border-white/10">
-      <div className="px-4 py-2 border-b border-white/10">
+      <div className="px-4 py-5 border-b border-white/10">
         <Select value={value} onValueChange={setValue} defaultValue="code">
           <SelectTrigger className="border-zinc-500 font-mono tracking-widest">
             <SelectValue placeholder="Answer"/>

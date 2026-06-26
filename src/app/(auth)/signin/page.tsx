@@ -1,52 +1,67 @@
-"use client"
+"use client";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
 import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import {useForm} from "react-hook-form"
-import {zodResolver} from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { SignInForm, signInFormSchema } from "@/src/types/schema";
 import { authClient } from "@/src/lib/authClient";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Loader2Icon } from "lucide-react";
 export default function SignInPage() {
-  
-  const [error,setError] = useState<string|null>(null)
-  const router = useRouter()
-  const {register,handleSubmit, formState:{errors}} = useForm<SignInForm>({
-    resolver: zodResolver(signInFormSchema)
-  })
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignInForm>({
+    resolver: zodResolver(signInFormSchema),
+  });
 
-  const onSubmit = async (submission:SignInForm)=>{
-    await authClient.signIn.email({
-      email: submission.email,
-      password: submission.password,
-      fetchOptions: {
-        onSuccess: ()=>{
-          router.push("/algorithm")
+  const onSubmit = async (submission: SignInForm) => {
+    try {
+      setIsLoading(true);
+      await authClient.signIn.email({
+        email: submission.email,
+        password: submission.password,
+        fetchOptions: {
+          onSuccess: () => {
+            router.push("/home");
+          },
+          onError: (ctx) => {
+            setError(ctx.error.message);
+          },
         },
-        onError: (ctx)=>{
-          setError(ctx.error.message)
-        }
-      }
-    })
-  }
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-  const handleSignInSocial = async (social:"github"|"google")=>{
-    await authClient.signIn.social({
-      provider: social,
-      fetchOptions: {
-        onSuccess: ()=>{
-          router.push("/algorithm")
+  const handleSignInSocial = async (social: "github" | "google") => {
+    try {
+      setIsLoading(true);
+      await authClient.signIn.social({
+        provider: social,
+        fetchOptions: {
+          onSuccess: () => {
+            router.push("/home");
+          },
+          onError: (ctx) => {
+            setError(ctx.error.message);
+          },
         },
-        onError: (ctx)=>{
-          setError(ctx.error.message)
-        }
-      }
-    })
-  }
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <div
       className="flex flex-col gap-10 bg-foreground min-h-screen justify-center"
@@ -65,8 +80,9 @@ export default function SignInPage() {
 
       <div className="flex justify-center">
         <form
-        onSubmit={handleSubmit(onSubmit)} 
-        className="flex flex-col gap-5 w-[500px]">
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-5 w-[500px]"
+        >
           <div className="flex flex-col gap-1.5">
             <Label className="text-white text-xs font-mono uppercase tracking-widest">
               Email
@@ -77,12 +93,14 @@ export default function SignInPage() {
               className="bg-[#0d1117] border-zinc-500 rounded-md px-3 py-2.5 text-white text-sm font-mono placeholder:text-white/50 focus:outline-none focus:border-[#4F8EF7]/50 transition-colors focus-visible:ring-0"
               {...register("email")}
             />
-            {errors.email?.message && <Label className="text-red-500"> {errors.email.message}</Label>}
+            {errors.email?.message && (
+              <Label className="text-red-500"> {errors.email.message}</Label>
+            )}
           </div>
 
           <div className="flex flex-col gap-1.5">
             <Label className="text-white text-xs font-mono uppercase tracking-widest">
-                Password
+              Password
             </Label>
             <Input
               type="password"
@@ -90,11 +108,20 @@ export default function SignInPage() {
               className="bg-[#0d1117] border-zinc-500 rounded-md px-3 py-2.5 text-white text-sm font-mono placeholder:text-white/50 focus:outline-none focus:border-[#4F8EF7]/50 transition-colors focus-visible:ring-0"
               {...register("password")}
             />
-            {errors.password?.message && <Label className="text-red-500"> {errors.password.message}</Label>}
+            {errors.password?.message && (
+              <Label className="text-red-500"> {errors.password.message}</Label>
+            )}
           </div>
-            <Button className="w-full bg-[#4F8EF7] hover:bg-[#3d7de6] text-white text-sm font-mono py-2.5 rounded-md transition-colors cursor-pointer mt-1">
-                Sign in
-            </Button>
+          <Button className="w-full bg-[#4F8EF7] hover:bg-[#3d7de6] text-white text-sm font-mono py-2.5 rounded-md transition-colors cursor-pointer mt-1">
+            {isLoading ? (
+              <div className="flex gap-3">
+                <Loader2Icon className="animate-spin" />
+                <Label> Signing In</Label>
+              </div>
+            ) : (
+              <Label> Sign In</Label>
+            )}
+          </Button>
           {error && <Label className="text-red-500">{error}</Label>}
         </form>
       </div>
@@ -107,24 +134,35 @@ export default function SignInPage() {
 
       <div className="flex gap-3 justify-center ">
         <div className="flex flex-col gap-3 ">
-          <Button 
-          onClick = {()=>handleSignInSocial("github")}
-          className="flex items-center justify-center gap-3 w-full rounded-md py-2.5 text-white/70 text-sm font-mono hover:border-white/20 hover:text-white transition-all cursor-pointer">
+          <Button
+            onClick={() => handleSignInSocial("github")}
+            className="flex items-center justify-center gap-3 w-full rounded-md py-2.5 text-white/70 text-sm font-mono hover:border-white/20 hover:text-white transition-all cursor-pointer"
+          >
             <FaGithub size={16} />
             Continue with GitHub
           </Button>
 
-          <Button 
-          onClick = {()=>handleSignInSocial("google")}
-          className="flex items-center justify-center gap-3 w-full rounded-md py-2.5 text-white/70 text-sm font-mono hover:border-white/20 hover:text-white transition-all cursor-pointer">
+          <Button
+            onClick={() => handleSignInSocial("google")}
+            className="flex items-center justify-center gap-3 w-full rounded-md py-2.5 text-white/70 text-sm font-mono hover:border-white/20 hover:text-white transition-all cursor-pointer"
+          >
             <FcGoogle size={16} />
             Continue with Google
           </Button>
         </div>
       </div>
       <div className="flex justify-center gap-3">
-        <Label className="text-white text-sm"> Don&apos;t have an account? </Label>
-        <Link href="/signup" className="text-white/70 text-sm hover:underline hover:text-white"> Click here</Link>
+        <Label className="text-white text-sm">
+          {" "}
+          Don&apos;t have an account?{" "}
+        </Label>
+        <Link
+          href="/signup"
+          className="text-white/70 text-sm hover:underline hover:text-white"
+        >
+          {" "}
+          Click here
+        </Link>
       </div>
     </div>
   );

@@ -9,9 +9,11 @@ import { SignUpForm, signUpFormSchema } from "@/src/types/schema";
 import { authClient } from "@/src/lib/authClient";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Loader2Icon } from "lucide-react";
 
 export default function SignUpPage() {
 
+    const [isLoading,setIsLoading] = useState<boolean>(false)
     const [error,setError] = useState<string|null>(null)
     const router = useRouter()
 
@@ -20,13 +22,15 @@ export default function SignUpPage() {
     })
 
     const onSubmit = async (submission: SignUpForm)=>{
+      try{
+        setIsLoading(false)
         await authClient.signUp.email({
             name: submission.name,
             email: submission.email,
             password: submission.password,
             fetchOptions:{
                 onSuccess: ()=>{
-                   router.push("/algorithm") 
+                   router.push("/home") 
                 },
                 onError: (ctx)=>{
                     setError(ctx.error.message)
@@ -34,6 +38,9 @@ export default function SignUpPage() {
             }
         }
         )
+      }finally{ 
+        setIsLoading(true)
+      } 
     }
 
 
@@ -110,9 +117,16 @@ export default function SignUpPage() {
             <Button 
             type = "submit"
             className="w-full bg-[#4F8EF7] hover:bg-[#3d7de6] text-white text-sm font-mono py-2.5 rounded-md transition-colors cursor-pointer mt-1">
-                Create my account
+                {isLoading ? (
+              <div className="flex gap-3">
+                <Loader2Icon className="animate-spin" />
+                <Label> Proceeding</Label>
+              </div>
+            ) : (
+              <Label> Create My Account</Label>
+            )}
             </Button>
-            {error && <Label className="text-red"> {error} </Label>}
+            {error && <Label className="text-red-500"> {error} </Label>}
         </form>
       </div>
 
