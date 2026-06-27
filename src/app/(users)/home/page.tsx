@@ -4,8 +4,11 @@ import { auth } from "@/src/lib/auth";
 import { headers } from "next/headers";
 
 
+export const dynamic = "force-dynamic" 
 
 export default async function Page() {
+ 
+
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/agent`,{
     headers: {
