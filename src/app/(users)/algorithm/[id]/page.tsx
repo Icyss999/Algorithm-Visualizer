@@ -17,7 +17,9 @@ export default async function AlgorithmPage({
 
   
   const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/agent/${id}`,{
-    headers: await headers(),
+    headers: {
+      Cookie: cookieStore.toString()
+    },
     cache: "no-store"
   })
 
