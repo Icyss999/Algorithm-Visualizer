@@ -1,12 +1,15 @@
 import { AppSidebar } from "@/src/components/web-component/AppSidebar";
 import { HomePage } from "@/src/components/web-component/HomeClient";
 import { auth } from "@/src/lib/auth";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 
 export const dynamic = "force-dynamic" 
 
 export default async function Page() {
+
+    const cookieStore = await cookies()  
+
  
 
 
@@ -18,7 +21,10 @@ export default async function Page() {
   })
   const data = await res.json()
   const session = await auth.api.getSession({
-    headers: await headers()
+    headers: {
+      Cookie: cookieStore.toString()
+
+    }
   })
 
 

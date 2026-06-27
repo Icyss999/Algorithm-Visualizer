@@ -3,7 +3,7 @@ import CodePanel from "@/src/components/web-component/CodePanel";
 import Visualizer from "@/src/components/web-component/Visualizer";
 import { auth } from "@/src/lib/auth";
 import { PublicAlgorithmResponse } from "@/src/types/schema";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 
 
 export const dynamic = "force-dynamic" 
@@ -13,6 +13,8 @@ export default async function AlgorithmPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+    const cookieStore = await cookies() 
+
   
   const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/agent/${id}`,{
     headers: await headers(),
