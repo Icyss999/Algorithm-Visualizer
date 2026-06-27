@@ -20,7 +20,9 @@ export default async function AlgorithmPage({
 
   const data = await res.json()
   const session = await auth.api.getSession({
-      headers: await headers()
+    headers:{
+      Cookie: cookieStore.toString()
+    }
     })
 
   return (
