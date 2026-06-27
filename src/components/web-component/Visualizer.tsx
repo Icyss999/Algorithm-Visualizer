@@ -6,14 +6,12 @@ import ArrayTemplate from "../templates/ArrayTemplate"
 import GridTemplate from "../templates/GrindTemplate"
 import GraphTemplate from "../templates/GraphTemplate"
 import TreeTemplate from "../templates/TreeTemplate"
-import { AlgorithmResponse, ArrayStep, BarsStep, GraphStep, GridStep, TreeStep } from "@/src/types/schema"
+import {  ArrayStep, BarsStep, GraphStep, GridStep, PublicAlgorithmResponse, TreeStep } from "@/src/types/schema"
 import { Button } from "../ui/button"
 
-interface VisualizerProps {
-  data: AlgorithmResponse
-}
 
-export default function Visualizer({ data }: VisualizerProps) {
+
+export default function Visualizer({data}:{data:PublicAlgorithmResponse}) {
   const [currentStep, setCurrentStep] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
   const [speed, setSpeed] = useState(50)
@@ -72,10 +70,10 @@ export default function Visualizer({ data }: VisualizerProps) {
       <div className="flex flex-wrap items-center gap-x-6 gap-y-1 px-4 md:px-6 py-6 border-b border-white/10 shrink-0">
         <span className="font-mono text-sm md:text-base text-white">{data.name}</span>
         <span className="font-mono text-[11px] text-white/40">
-          Time: <span className="text-white">{data.complexity.time}</span>
+          Time: <span className="text-white">{data.timeComplexity}</span>
         </span>
         <span className="font-mono text-[11px] text-white/40">
-          Space: <span className="text-white">{data.complexity.space}</span>
+          Space: <span className="text-white">{data.spaceComplexity}</span>
         </span>
       </div>
 

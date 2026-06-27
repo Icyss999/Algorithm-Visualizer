@@ -6,8 +6,7 @@ import { authClient } from "@/src/lib/authClient";
 
 export function IntroType (){
 
-     const {data:session} = useStore(authClient.useSession)
-     const name = session?.user.name ?? ""
+
     return(
         <TypeAnimation
             sequence={[

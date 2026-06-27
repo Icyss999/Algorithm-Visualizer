@@ -122,4 +122,14 @@ export type ApiErrorResponse = {
   message: string;
 };
 
+export type PublicAlgorithmResponse = {
+  id:string,
+  code:string,
+  explanation: string,
+  name: string,
+  timeComplexity : string,
+  spaceComplexity: string,
+  steps: AlgorithmSpace,
+  template:"bars" | "array" | "grid" | "graph" | "tree";
+}
 export type ResponseType = AlgorithmResponse | ErrorResponse | ApiErrorResponse;

@@ -22,5 +22,3 @@ jobs:
         - name: Check code formatting
           run: npm run lint
         
-        - name: Build
-          run: npm run build

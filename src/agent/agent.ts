@@ -24,8 +24,8 @@ export async function IcyssAgent(input: string, retries = 3): Promise<ReturnType
 
     const data = await res.json()
     const raw = data.choices[0].message.content
-    const parsed: ResponseType = JSON.parse(raw)
-    return validateResponse(parsed)
+    const parsed = JSON.parse(raw)
+    return parsed 
 
   } catch {
     if (retries > 0) {

@@ -20,7 +20,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/src/components/ui/tooltip"
-import { PanelLeftIcon } from "lucide-react"
+import { PanelLeftIcon, SnowflakeIcon } from "lucide-react"
 import { cn } from "@/src/lib/utils"
 import { Button } from "./button"
 import { Input } from "./input"
@@ -271,7 +271,7 @@ function SidebarTrigger({
       }}
       {...props}
     >
-      <PanelLeftIcon />
+      <SnowflakeIcon className="w-8 h-8" />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   )

@@ -1,35 +1,49 @@
-import { auth } from "@/src/lib/auth";
+import { betterFetch } from "@better-fetch/fetch"
 import { NextRequest, NextResponse } from "next/server";
+import { getSessionCookie } from "better-auth/cookies";
 
 
+export async function middleware(req: NextRequest) {
+  const publicRoutes = [
+    "/api/auth",
+    "/_next/static",
+    "/_next/image",
+    "/favicon.ico",
+    "/assets",
+  ];
+  const authRoutes = ["/signin", "/signup", "/"];
+  const url = new URL(req.url);
+  const sessionCookie = getSessionCookie(req);
 
-export async function middleware (req:NextRequest){
-    const publicRoutes = [
-        "/api",
-        "/_next/static",
-        "/_next/image",
-        "/favicon.ico",
-        "/assets",
-    ];
-    const url = new URL(req.url)
-    
-    if (publicRoutes.some(route=>url.pathname.startsWith(route))){
-        return NextResponse.next()
+  if (publicRoutes.some((route) => url.pathname.startsWith(route))) {
+    return NextResponse.next();
+  }
+
+  if (!sessionCookie && !authRoutes.includes(url.pathname)) {
+    return NextResponse.redirect(new URL("/signin", req.url));
+  }
+
+  if (sessionCookie) {
+    const { data: session } = await betterFetch("/api/auth/get-session", {
+      baseURL: req.nextUrl.origin,
+      headers: { cookie: req.headers.get("cookie") || "" },
+    });
+    if (session && authRoutes.includes(url.pathname) ){
+        return NextResponse.redirect(new URL("/home", req.url))
     }
-    const session = await auth.api.getSession({
-        headers: req.headers
-    })
-    if (!session && url.pathname !== "/signin" && url.pathname !== "/signup" && url.pathname !== "/"){
-        return NextResponse.redirect(new URL("/signin",req.url))
+    if (!session){
+        if (url.pathname.startsWith("/api")){
+            return NextResponse.json({message: "Unauthorized"},{status: 401})
+        }
+        if (!authRoutes.includes(url.pathname)){
+            return NextResponse.redirect(new URL("/signin",req.url))
+        }
     }
-    if (session && (url.pathname === "/signup" || url.pathname === "/signin" || url.pathname === "/")){
-        return NextResponse.redirect(new URL("/home",req.url))
-    }
-    return NextResponse.next()
+  }
 
-    
+  return NextResponse.next();
 }
 
 export const config = {
-    matcher: ["/(.*)"]
-}
+  matcher: ["/(.*)"],
+};

@@ -1,5 +1,6 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, index, uuid, jsonb, pgEnum } from "drizzle-orm/pg-core";
+import { AlgorithmSpace } from "../types/schema";
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -73,6 +74,22 @@ export const verification = pgTable(
   (table) => [index("verification_identifier_idx").on(table.identifier)],
 );
 
+export const templateEnum = pgEnum("template_type",["bars","array","grid","graph","tree"])
+
+export const algorithmTable = pgTable("algorithm",{
+  id : uuid("id").primaryKey().defaultRandom(),
+  userId: text("userId").references(()=> user.id),
+  name: text("name").notNull(),
+  template: templateEnum("template").notNull(),
+  timeComplexity: text("timeComplexity").notNull(),
+  spaceComplexity: text("spaceComplexity").notNull(),
+  code: text("code").notNull(),
+  explanation: text("explanation").notNull(),
+  steps: jsonb("steps").notNull().$type<AlgorithmSpace>(),
+  createdAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow()
+})
+
 export const userRelations = relations(user, ({ many }) => ({
   sessions: many(session),
   accounts: many(account),
@@ -91,3 +108,6 @@ export const accountRelations = relations(account, ({ one }) => ({
     references: [user.id],
   }),
 }));
+
+
+
