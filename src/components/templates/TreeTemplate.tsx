@@ -1,10 +1,10 @@
 "use client"
-import { TreeNode, TreeStep } from "@/src/types/schema";
+import { TreeNode, TreeStep } from "@/src/types/schema"
 import { motion } from "framer-motion"
-
 
 interface TreeTemplateProps {
   step: TreeStep
+  isDone: boolean
 }
 
 function getPositions(nodes: TreeNode[]): Map<number, { x: number; y: number }> {
@@ -27,21 +27,20 @@ function getPositions(nodes: TreeNode[]): Map<number, { x: number; y: number }> 
   return positions
 }
 
-export default function TreeTemplate({ step }: TreeTemplateProps) {
+export default function TreeTemplate({ step, isDone }: TreeTemplateProps) {
   const WIDTH = 400
   const HEIGHT = 250
   const positions = getPositions(step.state)
 
   return (
     <svg width="100%" height="100%" viewBox={`0 0 ${WIDTH} ${HEIGHT}`}>
-      {step.state.map((node,z) => {
+      {step.state.map((node, z) => {
         const pos = positions.get(node.id)
         if (!pos) return null
         return (
           <g key={z}>
             {node.left !== null && positions.get(node.left) && (
               <line
-                key={`${node.id}-l`}
                 x1={pos.x} y1={pos.y}
                 x2={positions.get(node.left)!.x}
                 y2={positions.get(node.left)!.y}
@@ -51,7 +50,6 @@ export default function TreeTemplate({ step }: TreeTemplateProps) {
             )}
             {node.right !== null && positions.get(node.right) && (
               <line
-                key={`${node.id}-r`}
                 x1={pos.x} y1={pos.y}
                 x2={positions.get(node.right)!.x}
                 y2={positions.get(node.right)!.y}
@@ -72,9 +70,11 @@ export default function TreeTemplate({ step }: TreeTemplateProps) {
               cy={pos.y}
               r={20}
               animate={{
-                fill: step.highlight.includes(i) ? "#3d8eff" : "#1c2a3a"
+                fill: isDone
+                  ? "#22c55e"
+                  : step.highlight.includes(i) ? "#3d8eff" : "#1c2a3a"
               }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.05 }}
               stroke="rgba(255,255,255,0.2)"
               strokeWidth={1}
             />

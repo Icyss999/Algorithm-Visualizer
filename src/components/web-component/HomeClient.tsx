@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useRouter } from "next/navigation";
 import SearchBox from "./SearchBox";
 import { useState } from "react";
@@ -9,15 +9,14 @@ import { Button } from "../ui/button";
 
 export const HomePage = () => {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState<AlgorithmResponse | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [isDone, setIsDone] = useState<boolean>(false);
 
   const handleSearch = async (query: string) => {
     try {
       setIsLoading(true);
       setError(null);
-      setData(null);
 
       const result = await fetch("/api/agent", {
         method: "POST",
@@ -33,6 +32,7 @@ export const HomePage = () => {
       }
     } finally {
       setIsLoading(false);
+      setIsDone(true);
     }
   };
 
@@ -46,21 +46,39 @@ export const HomePage = () => {
         {/* Content area */}
         <div className="flex flex-1 min-h-0">
           {isLoading && (
-            <div className="flex-1 flex gap-5 items-center justify-center">
-              <SnowflakeIcon className="animate-spin w-10 h-10" />
+            <div className="flex-1 flex gap-5 items-center justify-center items-center">
+              <video
+                src="/Video Project.mp4"
+                height={200}
+                width={200}
+                autoPlay
+                loop
+                muted
+                style={{
+                  mixBlendMode: "lighten",
+                }}
+              />
               <span className="font-mono text-2xl text-white animate-pulse">
                 Icycle is thinking...
               </span>
             </div>
           )}
+          {isDone && (
+            <div className="flex-1 flex gap-5 items-center justify-center items-center">
+              <SnowflakeIcon className="text-white w-10 h-10 animate-spin" />
+              <span className="font-mono text-2xl text-white animate-pulse">
+                Found It!
+              </span>
+            </div>
+          )}
 
-          {error && !isLoading && (
+          {error && (
             <div className="flex-1 flex items-center justify-center">
               <span className="font-mono text-sm text-red-400">{error}</span>
             </div>
           )}
 
-          {!data && !isLoading && !error && (
+          {!isLoading && !error && !isDone && (
             <div className="flex-1 flex flex-col items-center justify-center gap-3">
               <Label className="font-mono text-lg tracking-widest text-white uppercase flex gap-3">
                 Welcome to Icycle Agent

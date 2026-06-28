@@ -6,12 +6,10 @@ import ArrayTemplate from "../templates/ArrayTemplate"
 import GridTemplate from "../templates/GrindTemplate"
 import GraphTemplate from "../templates/GraphTemplate"
 import TreeTemplate from "../templates/TreeTemplate"
-import {  ArrayStep, BarsStep, GraphStep, GridStep, PublicAlgorithmResponse, TreeStep } from "@/src/types/schema"
+import { ArrayStep, BarsStep, GraphStep, GridStep, PublicAlgorithmResponse, TreeStep } from "@/src/types/schema"
 import { Button } from "../ui/button"
 
-
-
-export default function Visualizer({data}:{data:PublicAlgorithmResponse}) {
+export default function Visualizer({ data }: { data: PublicAlgorithmResponse }) {
   const [currentStep, setCurrentStep] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
   const [speed, setSpeed] = useState(50)
@@ -22,25 +20,25 @@ export default function Visualizer({data}:{data:PublicAlgorithmResponse}) {
   const isDone = currentStep >= totalSteps - 1
 
   useEffect(() => {
-  if (!isPlaying) {
-    if (intervalRef.current) clearInterval(intervalRef.current)
-    return
-  }
+    if (!isPlaying) {
+      if (intervalRef.current) clearInterval(intervalRef.current)
+      return
+    }
 
-  const delay = Math.round(1000 - speed * 9)
-  intervalRef.current = setInterval(() => {
-    setCurrentStep((s) => {
-      if (s >= totalSteps - 1) {
-        clearInterval(intervalRef.current!) 
-        setIsPlaying(false)                 
-        return s
-      }
-      return s + 1
-    })
-  }, delay)
+    const delay = Math.round(1000 - speed * 9)
+    intervalRef.current = setInterval(() => {
+      setCurrentStep((s) => {
+        if (s >= totalSteps - 1) {
+          clearInterval(intervalRef.current!)
+          setIsPlaying(false)
+          return s
+        }
+        return s + 1
+      })
+    }, delay)
 
-  return () => { if (intervalRef.current) clearInterval(intervalRef.current) }
-}, [isPlaying, speed, totalSteps])
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current) }
+  }, [isPlaying, speed, totalSteps])
 
   const handleStep = () => {
     if (isDone) return
@@ -55,18 +53,16 @@ export default function Visualizer({data}:{data:PublicAlgorithmResponse}) {
 
   const renderTemplate = () => {
     switch (data.template) {
-      case "bars":  return <BarsTemplate step={step as BarsStep} />
-      case "array": return <ArrayTemplate step={step as ArrayStep} />
-      case "grid":  return <GridTemplate step={step as GridStep} />
-      case "graph": return <GraphTemplate step={step as GraphStep} />
-      case "tree":  return <TreeTemplate step={step as TreeStep} />
+      case "bars":  return <BarsTemplate step={step as BarsStep} isDone={isDone} />
+      case "array": return <ArrayTemplate step={step as ArrayStep} isDone={isDone} />
+      case "grid":  return <GridTemplate step={step as GridStep} isDone={isDone} />
+      case "graph": return <GraphTemplate step={step as GraphStep} isDone={isDone} />
+      case "tree":  return <TreeTemplate step={step as TreeStep} isDone={isDone} />
     }
   }
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
-
-      {/* Algorithm info — wraps on mobile */}
       <div className="flex flex-wrap items-center gap-x-6 gap-y-1 px-4 md:px-6 py-6 border-b border-white/10 shrink-0">
         <span className="font-mono text-sm md:text-base text-white">{data.name}</span>
         <span className="font-mono text-[11px] text-white/40">
@@ -77,14 +73,12 @@ export default function Visualizer({data}:{data:PublicAlgorithmResponse}) {
         </span>
       </div>
 
-      {/* Canvas — explicit min height so it never collapses */}
       <div className="flex-1 min-h-[200px] md:min-h-[280px] border-b border-white/10 overflow-hidden">
         <div className="w-full h-full flex items-center justify-center">
           {renderTemplate()}
         </div>
       </div>
 
-      {/* Step label */}
       <div className="px-4 md:px-6 py-3 border-b border-white/10 shrink-0 flex flex-col gap-3 h-25 overflow-auto">
         <span className="font-mono text-[11px] text-white">
           Step: <span className="text-white">{currentStep + 1}</span> / {totalSteps}
@@ -92,10 +86,7 @@ export default function Visualizer({data}:{data:PublicAlgorithmResponse}) {
         <p className="font-mono text-xs md:text-sm text-white leading-5">{step.label}</p>
       </div>
 
-      {/* Controls — wraps on mobile */}
       <div className="flex flex-wrap items-center gap-3 px-4 md:px-6 py-3 shrink-0 border-b border-white/10">
-
-        {/* Playback buttons */}
         <div className="flex items-center gap-2">
           <Button
             onClick={() => isDone ? handleReset() : setIsPlaying((p) => !p)}
@@ -124,7 +115,6 @@ export default function Visualizer({data}:{data:PublicAlgorithmResponse}) {
 
         <div className="w-px h-4 bg-white/10" />
 
-        {/* Speed — takes remaining space, shrinks on mobile */}
         <div className="flex items-center gap-2 flex-1 min-w-[140px]">
           <span className="font-mono text-[10px] text-white/40 shrink-0">SPEED</span>
           <input

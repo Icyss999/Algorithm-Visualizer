@@ -4,13 +4,15 @@ import { motion } from "framer-motion"
 
 interface GraphTemplateProps {
   step: GraphStep
+  isDone: boolean
 }
 
-function nodeColor(index: number, highlight: number[]): string {
+function nodeColor(index: number, highlight: number[], isDone: boolean): string {
+  if (isDone) return "#22c55e"
   return highlight.includes(index) ? "#3d8eff" : "#1c2a3a"
 }
 
-export default function GraphTemplate({ step }: GraphTemplateProps) {
+export default function GraphTemplate({ step, isDone }: GraphTemplateProps) {
   const WIDTH = 400
   const HEIGHT = 250
 
@@ -21,7 +23,7 @@ export default function GraphTemplate({ step }: GraphTemplateProps) {
 
   return (
     <svg width="100%" height="100%" viewBox={`0 0 ${WIDTH} ${HEIGHT}`}>
-      {/* Lines first so they render behind nodes */}
+      {/* Edges */}
       {step.state.flatMap((node) =>
         node.connections.map((targetId) => {
           const target = step.state.find((n) => n.id === targetId)
@@ -39,17 +41,30 @@ export default function GraphTemplate({ step }: GraphTemplateProps) {
           )
         })
       )}
-      {/* Nodes on top */}
+
+      {/* Nodes */}
       {step.state.map((node, i) => {
         const pos = getPos(node)
+        const isHighlighted = step.highlight.includes(i)
+
         return (
           <g key={node.id}>
             <motion.circle
               cx={pos.x}
               cy={pos.y}
               r={20}
-              animate={{ fill: nodeColor(i, step.highlight) }}
-              transition={{ duration: 0.2 }}
+              animate={{
+                fill: nodeColor(i, step.highlight, isDone),
+                r: isHighlighted && !isDone ? [20, 24, 20] : 20,  // ✅ pop radius
+              }}
+              transition={{
+                fill: { duration: 0.05 },
+                r: {
+                  duration: 0.25,
+                  times: [0, 0.4, 1],
+                  ease: "easeOut"
+                }
+              }}
               stroke="rgba(255,255,255,0.4)"
               strokeWidth={1.5}
             />
