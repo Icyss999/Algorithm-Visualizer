@@ -1,5 +1,5 @@
 "use client";
-import { Code2Icon, HomeIcon, Loader2Icon, SnowflakeIcon } from "lucide-react";
+import { BinaryIcon, BookOpenIcon, Code2Icon, HomeIcon, Loader2Icon } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -25,7 +25,7 @@ import {
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Label } from "../ui/label";
 import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { getInitial } from "@/src/lib/utils";
 import { PublicAlgorithmResponse } from "@/src/types/schema";
@@ -39,12 +39,15 @@ export function AppSidebar({
   session: Awaited<ReturnType<typeof auth.api.getSession>>;
   data: PublicAlgorithmResponse[] | null;
 }) {
+  const pathname = usePathname()
   const { state } = useSidebar();
-  const route = useRouter();
+  const { id } = useParams()
 
   const menuItems = [
     { name: "Home", href: "/home", icon: HomeIcon },
-    { name: "Code", href: "/code", icon: Code2Icon },
+    { name: "Visual", href: `/algorithm/${id}`, icon: BinaryIcon},
+    { name: "Code", href: `/algorithm/${id}/code`, icon: Code2Icon },
+    { name: "Explain", href: `/algorithm/${id}/explain`, icon: BookOpenIcon}
   ];
 
   return (
@@ -69,7 +72,7 @@ export function AppSidebar({
       <SidebarContent>
         <SidebarGroup>
           {state === "expanded" && data && (
-            <div>
+            <div className="flex flex-col gap-3">
               <SidebarGroupLabel className="text-[grey]">
                 {" "}
                 Recent History
@@ -90,16 +93,20 @@ export function AppSidebar({
               <SidebarGroupLabel className="text-[grey]">
                 Menu
               </SidebarGroupLabel>
-              {menuItems.map((item,z) => (
-                <Link key={z} href={item.href}>
+              {menuItems.map((item,z) => 
+                {
+                  const isActive = pathname === item.href
+                  return(
+                     <Link key={z} href={item.href}>
                   <SidebarMenuItem>
-                    <SidebarMenuButton className="flex text-white gap-3 hover:text-black cursor-pointer">
+                    <SidebarMenuButton className={`flex gap-3 hover:text-black cursor-pointer ${isActive? `bg-white text-black`: `text-white`}`}>
                       <item.icon />
                       {item.name}
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 </Link>
-              ))}
+                  )
+            })}
             </div>
           )}
         </SidebarGroup>
