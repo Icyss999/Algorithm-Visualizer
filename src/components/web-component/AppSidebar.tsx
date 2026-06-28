@@ -90,8 +90,8 @@ export function AppSidebar({
               <SidebarGroupLabel className="text-[grey]">
                 Menu
               </SidebarGroupLabel>
-              {menuItems.map((item) => (
-                <Link href={item.href}>
+              {menuItems.map((item,z) => (
+                <Link key={z} href={item.href}>
                   <SidebarMenuItem>
                     <SidebarMenuButton className="flex text-white gap-3 hover:text-black cursor-pointer">
                       <item.icon />
