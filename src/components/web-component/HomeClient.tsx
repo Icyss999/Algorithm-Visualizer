@@ -62,8 +62,8 @@ export const HomePage = () => {
                 Icycle is thinking...
               </span>
             </div>
-          )}
-          {isDone && (
+          )} 
+          {isDone && !error && (
             <div className="flex-1 flex gap-5 items-center justify-center items-center">
               <SnowflakeIcon className="text-white w-10 h-10 animate-spin" />
               <span className="font-mono text-2xl text-white animate-pulse">

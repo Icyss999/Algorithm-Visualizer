@@ -3,7 +3,8 @@ import { db } from "@/src/db";
 import { algorithmTable } from "@/src/db/schema";
 import { auth } from "@/src/lib/auth";
 import { ratelimit } from "@/src/lib/ratelimit";
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, ilike } from "drizzle-orm";
+import { TrendingUpDown } from "lucide-react";
 
 export const POST = async (req: Request) => {
   try {
@@ -24,6 +25,17 @@ export const POST = async (req: Request) => {
       );
     }
     const body = await req.json();
+    const existingData = await db
+      .select()
+      .from(algorithmTable)
+      .where(ilike(algorithmTable.name, body.input))
+      .limit(1);
+
+    if (existingData.length > 0){
+      console.log(existingData)
+      return Response.json({success:true, data:existingData},{status:200})
+    }
+
     const session = await auth.api.getSession({
       headers: req.headers,
     });

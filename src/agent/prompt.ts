@@ -31,7 +31,7 @@ id=0 is always root
 highlight = indices of currently active nodes
 
 Step rules:
-- Generate every significant steps without skipping a step, so all steps of the visual are connected 
+- Generate every significant steps without skipping a step, so all steps of the visual are connected
 - Each label must be a sentence explaining WHAT is happening AND WHY
 - Bad label: "Comparing 5 and 3"
 - Good label: "Comparing 5 and 3 — since 5 is greater than 3, they must be swapped to move the larger element rightward"

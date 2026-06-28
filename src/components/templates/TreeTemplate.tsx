@@ -34,6 +34,7 @@ export default function TreeTemplate({ step, isDone }: TreeTemplateProps) {
 
   return (
     <svg width="100%" height="100%" viewBox={`0 0 ${WIDTH} ${HEIGHT}`}>
+      {/* Edges */}
       {step.state.map((node, z) => {
         const pos = positions.get(node.id)
         if (!pos) return null
@@ -60,9 +61,13 @@ export default function TreeTemplate({ step, isDone }: TreeTemplateProps) {
           </g>
         )
       })}
+
+      {/* Nodes */}
       {step.state.map((node, i) => {
         const pos = positions.get(node.id)
         if (!pos) return null
+        const isHighlighted = step.highlight.includes(i)
+
         return (
           <g key={node.id}>
             <motion.circle
@@ -70,11 +75,20 @@ export default function TreeTemplate({ step, isDone }: TreeTemplateProps) {
               cy={pos.y}
               r={20}
               animate={{
-                fill: isDone
-                  ? "#22c55e"
-                  : step.highlight.includes(i) ? "#3d8eff" : "#1c2a3a"
+                fill: isDone ? "#22c55e" : isHighlighted ? "#3d8eff" : "#1c2a3a",
+                r: isDone
+                  ? [20, 26, 20]
+                  : isHighlighted ? [20, 24, 20] : 20,
               }}
-              transition={{ duration: 0.05 }}
+              transition={{
+                fill: { duration: 0.05 },
+                r: {
+                  duration: 0.3,
+                  times: [0, 0.4, 1],
+                  ease: "easeOut",
+                  delay: isDone ? i * 0.05 : 0,  // ✅ left to right stagger
+                }
+              }}
               stroke="rgba(255,255,255,0.2)"
               strokeWidth={1}
             />

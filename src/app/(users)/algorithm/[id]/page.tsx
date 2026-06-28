@@ -3,7 +3,7 @@ import CodePanel from "@/src/components/web-component/CodePanel";
 import Visualizer from "@/src/components/web-component/Visualizer";
 import { auth } from "@/src/lib/auth";
 import { PublicAlgorithmResponse } from "@/src/types/schema";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 
 
 export const dynamic = "force-dynamic" 
@@ -20,7 +20,7 @@ export default async function AlgorithmPage({
     headers: {
       Cookie: cookieStore.toString()
     },
-    cache: "no-store"
+    cache: "force-cache"
   })
 
   const data = await res.json()
@@ -32,7 +32,7 @@ export default async function AlgorithmPage({
 
   return (
     <div className="flex">
-      <AppSidebar data={data.data} session = {session}/>
+      <AppSidebar data={null} session = {session}/>
 
       <div
         className="flex flex-col bg-foreground text-white overflow-hidden h-screen w-screen"

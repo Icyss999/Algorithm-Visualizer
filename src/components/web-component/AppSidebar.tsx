@@ -1,5 +1,5 @@
 "use client";
-import { Loader2Icon, SnowflakeIcon } from "lucide-react";
+import { Code2Icon, HomeIcon, Loader2Icon, SnowflakeIcon } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -7,6 +7,7 @@ import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarHeader,
+  SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarTrigger,
@@ -31,67 +32,94 @@ import { PublicAlgorithmResponse } from "@/src/types/schema";
 import { auth } from "@/src/lib/auth";
 import Link from "next/link";
 
-export function AppSidebar({session,data}:{session:Awaited<ReturnType<typeof auth.api.getSession>>,data:PublicAlgorithmResponse[]}) {
+export function AppSidebar({
+  session,
+  data,
+}: {
+  session: Awaited<ReturnType<typeof auth.api.getSession>>;
+  data: PublicAlgorithmResponse[] | null;
+}) {
   const { state } = useSidebar();
-  const route = useRouter()
-  
+  const route = useRouter();
+
+  const menuItems = [
+    { name: "Home", href: "/home", icon: HomeIcon },
+    { name: "Code", href: "/code", icon: Code2Icon },
+  ];
+
   return (
     <Sidebar className="border-zinc-800" collapsible="icon">
       {/* Header */}
       <SidebarHeader className="p-0">
-          {state === "expanded" ? (
-            <header className="flex items-center px-6 h-[70px] gap-5 shrink-0 border-white/10 border-b">
-              <SidebarTrigger className="w-8 h-8 text-white cursor-pointer" />
-              <span className="font-mono tracking-widest text-white text-base uppercase">
-                Icyrythm
-              </span>
-            </header>
-          ) : (
-            <header className="p-2">
-              <SidebarTrigger className="w-8 h-8 text-white cursor-pointer " />
-            </header>
-          )}
+        {state === "expanded" ? (
+          <header className="flex items-center px-6 h-[70px] gap-5 shrink-0 border-white/10 border-b">
+            <SidebarTrigger className="w-8 h-8 text-white cursor-pointer" />
+            <span className="font-mono tracking-widest text-white text-base uppercase">
+              Icyrythm
+            </span>
+          </header>
+        ) : (
+          <header className="p-2">
+            <SidebarTrigger className="w-8 h-8 text-white cursor-pointer " />
+          </header>
+        )}
       </SidebarHeader>
 
       {/* Chat List */}
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-[grey]"> History</SidebarGroupLabel>
-          
-            {
-              state === "expanded"?
-              <div>
-                {data.map((item)=>(
-            <Link 
-            key={item.id}
-            className=""
-            href={`/algorithm/${item.id}`}>
-            <SidebarMenuItem 
-            className="text-white p-1 hover:bg-white hover:text-black rounded-lg">
-                  {item.name}
-            </SidebarMenuItem>
-          </Link>
-        ))}
-              </div>
-              :
-              <div>
-                
-              </div>
-            }
-            
+          {state === "expanded" && data && (
+            <div>
+              <SidebarGroupLabel className="text-[grey]">
+                {" "}
+                Recent History
+              </SidebarGroupLabel>
+              {data.map((item) => (
+                <Link key={item.id} className="" href={`/algorithm/${item.id}`}>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton className="flex text-white gap-3 hover:text-black cursor-pointer">
+                      {item.name}
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </Link>
+              ))}
+            </div>
+          )}
+          {state === "expanded" && (
+            <div className="flex flex-col gap-3">
+              <SidebarGroupLabel className="text-[grey]">
+                Menu
+              </SidebarGroupLabel>
+              {menuItems.map((item) => (
+                <Link href={item.href}>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton className="flex text-white gap-3 hover:text-black cursor-pointer">
+                      <item.icon />
+                      {item.name}
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </Link>
+              ))}
+            </div>
+          )}
         </SidebarGroup>
-          
       </SidebarContent>
 
       {/* Footer */}
       <SidebarFooter className="border-t border-white/10 px-3 py-3">
-        <UserAvatar state={state} session={session}/>
+        <UserAvatar state={state} session={session} />
       </SidebarFooter>
     </Sidebar>
   );
 }
 
-function UserAvatar({state,session}:{state:"expanded" | "collapsed",session:Awaited<ReturnType<typeof auth.api.getSession>>}) {
+function UserAvatar({
+  state,
+  session,
+}: {
+  state: "expanded" | "collapsed";
+  session: Awaited<ReturnType<typeof auth.api.getSession>>;
+}) {
   const [loading, setLoading] = useState(false);
   const route = useRouter();
   const username = session?.user?.name ?? "User";
@@ -115,26 +143,27 @@ function UserAvatar({state,session}:{state:"expanded" | "collapsed",session:Awai
   return (
     <Drawer direction="left">
       <DrawerTrigger>
-        {
-            state === "expanded"? 
-             <div className="flex items-center gap-5 p-5 rounded-lg hover:bg-[#414141] w-full">
-          <Avatar className="w-8 h-8">
-            <AvatarFallback>{getInitial(username)} </AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col gap-2">
-            <Label className="text-white text-base font-mono">
-              {" "}
-              {username}
-            </Label>
+        {state === "expanded" ? (
+          <div className="flex items-center gap-5 p-3 rounded-lg hover:bg-[#414141] w-full">
+            <Avatar className="w-8 h-8">
+              <AvatarFallback>{getInitial(username)} </AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col gap-2">
+              <Label className="text-white text-base font-mono">
+                {" "}
+                {username}
+              </Label>
+            </div>
           </div>
-        </div>
-        :
+        ) : (
           <div className="flex items-center gap-5 rounded-lg w-full">
-          <Avatar className="w-7 h-7">
-            <AvatarFallback className="text-sm">{getInitial(username)} </AvatarFallback>
-          </Avatar>
-        </div>
-        }   
+            <Avatar className="w-7 h-7">
+              <AvatarFallback className="text-sm">
+                {getInitial(username)}{" "}
+              </AvatarFallback>
+            </Avatar>
+          </div>
+        )}
       </DrawerTrigger>
       <DrawerContent className="bg-foreground h-full flex flex-col gap-3 border-zinc-800">
         <DrawerHeader>

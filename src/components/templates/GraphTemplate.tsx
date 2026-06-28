@@ -55,14 +55,17 @@ export default function GraphTemplate({ step, isDone }: GraphTemplateProps) {
               r={20}
               animate={{
                 fill: nodeColor(i, step.highlight, isDone),
-                r: isHighlighted && !isDone ? [20, 24, 20] : 20,  // ✅ pop radius
+                r: isDone
+                  ? [20, 26, 20]
+                  : isHighlighted ? [20, 24, 20] : 20,
               }}
               transition={{
                 fill: { duration: 0.05 },
                 r: {
-                  duration: 0.25,
+                  duration: 0.3,
                   times: [0, 0.4, 1],
-                  ease: "easeOut"
+                  ease: "easeOut",
+                  delay: isDone ? i * 0.05 : 0,  // ✅ stagger
                 }
               }}
               stroke="rgba(255,255,255,0.4)"
